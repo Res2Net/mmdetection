@@ -78,6 +78,7 @@ More models with different backbones will be added to the model zoo.
 |   HRNetV2p-W32   | pytorch |   2x    |    -     |          -          |       -        |  40.6  |    [model](https://open-mmlab.s3.ap-northeast-2.amazonaws.com/mmdetection/models/hrnet/faster_rcnn_hrnetv2p_w32_2x_20190810-24e8912a.pth) |
 |   HRNetV2p-W48   | pytorch |   1x    |    -     |          -          |       -        |  40.9  |    [model](https://open-mmlab.s3.ap-northeast-2.amazonaws.com/mmdetection/models/hrnet/faster_rcnn_hrnetv2p_w48_1x_20190820-5c6d0903.pth)    |
 |   HRNetV2p-W48   | pytorch |   2x    |    -     |          -          |       -        |  41.5  |    [model](https://open-mmlab.s3.ap-northeast-2.amazonaws.com/mmdetection/models/hrnet/faster_rcnn_hrnetv2p_w48_2x_20190820-79fb8bfc.pth) |
+|   Res2Net-101    | pytorch |   2x    |    -     |          -          |       -        |  42.3  |    [model](-) |
 
 
 ### Mask R-CNN
@@ -104,7 +105,7 @@ More models with different backbones will be added to the model zoo.
 |   HRNetV2p-W32   | pytorch |   2x    |    -     |          -          |       -        |  41.7  |  37.5   |    [model](https://open-mmlab.s3.ap-northeast-2.amazonaws.com/mmdetection/models/hrnet/mask_rcnn_hrnetv2p_w32_2x_20190810-773eca75.pth) |
 |   HRNetV2p-W48   | pytorch |   1x    |    -     |          -          |       -        |  42.4  |  38.1   |    [model](https://open-mmlab.s3.ap-northeast-2.amazonaws.com/mmdetection/models/hrnet/mask_rcnn_hrnetv2p_w48_1x_20190820-0923d1ad.pth) |
 |   HRNetV2p-W48   | pytorch |   2x    |    -     |          -          |       -        |  42.9  |  38.3   |    [model](https://open-mmlab.s3.ap-northeast-2.amazonaws.com/mmdetection/models/hrnet/mask_rcnn_hrnetv2p_w48_2x_20190820-70df51b2.pth) |
-
+|   Res2Net-101    | pytorch |   2x    |    -     |          -          |       -        |  43.3  |  38.6   |    [model](-) |
 ### Fast R-CNN (with pre-computed proposals)
 
 | Backbone  |  Style  |  Type  | Lr schd | Mem (GB) | Train time (s/iter) | Inf time (fps) | box AP | mask AP |                                                            Download                                                             |
@@ -163,7 +164,7 @@ More models with different backbones will be added to the model zoo.
 |   HRNetV2p-W18   | pytorch |   20e   |    -     |          -          |       -        |  41.2  | [model](https://open-mmlab.s3.ap-northeast-2.amazonaws.com/mmdetection/models/hrnet/cascade_rcnn_hrnetv2p_w18_20e_20190810-132012d0.pth) |
 |   HRNetV2p-W32   | pytorch |   20e   |    -     |          -          |       -        |  43.7  | [model](https://open-mmlab.s3.ap-northeast-2.amazonaws.com/mmdetection/models/hrnet/cascade_rcnn_hrnetv2p_w32_20e_20190522-55bec4ee.pth)|
 |   HRNetV2p-W48   | pytorch |   20e   |    -     |          -          |       -        |  44.6  | [model](https://open-mmlab.s3.ap-northeast-2.amazonaws.com/mmdetection/models/hrnet/cascade_rcnn_hrnetv2p_w48_20e_20190810-f40ed8e1.pth) |
-
+|   Res2Net-101    | pytorch |   20e   |    -     |          -          |       -        |  45.5  | [model](-) |
 ### Cascade Mask R-CNN
 
 |    Backbone     |  Style  | Lr schd | Mem (GB) | Train time (s/iter) | Inf time (fps) | box AP | mask AP |                                                                 Download                                                                  |
@@ -182,6 +183,7 @@ More models with different backbones will be added to the model zoo.
 |   HRNetV2p-W18   | pytorch |   20e   |    -     |          -          |       -        |  41.9  |  36.4   | [model](https://open-mmlab.s3.ap-northeast-2.amazonaws.com/mmdetection/models/hrnet/cascade_mask_rcnn_hrnetv2p_w18_20e_20190810-054fb7bf.pth) |
 |   HRNetV2p-W32   | pytorch |   20e   |    -     |          -          |       -        |  44.5  |  38.5   | [model](https://open-mmlab.s3.ap-northeast-2.amazonaws.com/mmdetection/models/hrnet/cascade_mask_rcnn_hrnetv2p_w32_20e_20190810-76f61cd0.pth) |
 |   HRNetV2p-W48   | pytorch |   20e   |    -     |          -          |       -        |  46.0  |  39.5   | [model](https://open-mmlab.s3.ap-northeast-2.amazonaws.com/mmdetection/models/hrnet/cascade_mask_rcnn_hrnetv2p_w48_20e_20190810-d04a1415.pth) |
+|   Res2Net-101   | pytorch |   20e   |    -     |          -          |       -         |  46.1   |  39.4    | [model]() |
 
 **Notes:**
 
@@ -200,7 +202,7 @@ More models with different backbones will be added to the model zoo.
 |   HRNetV2p-W32   | pytorch |   20e   |    -     |          -          |       -        |  45.3  |  39.6   | [model](https://open-mmlab.s3.ap-northeast-2.amazonaws.com/mmdetection/models/hrnet/htc_hrnetv2p_w32_20e_20190810-82f9ef5a.pth) |
 |   HRNetV2p-W48   | pytorch |   20e   |    -     |          -          |       -        |  46.8  | 40.7    | [model](https://open-mmlab.s3.ap-northeast-2.amazonaws.com/mmdetection/models/hrnet/htc_hrnetv2p_w48_20e_20190810-f6d2c3fd.pth) |
 |   HRNetV2p-W48   | pytorch |   28e   |    -     |          -          |       -        |  47.0  |  41.0   | [model](https://open-mmlab.s3.ap-northeast-2.amazonaws.com/mmdetection/models/hrnet/htc_hrnetv2p_w48_28e_20190810-a4274b38.pth) |
-
+|   Res2Net-101   | pytorch |   20e   |    -     |          -          |       -        |  47.5  |  41.3   | [model]() |
 **Notes:**
 
 - Please refer to [Hybrid Task Cascade](https://github.com/open-mmlab/mmdetection/blob/master/configs/htc) for details and more a powerful model (50.7/43.9).
@@ -272,6 +274,9 @@ Please refer to [GCNet](https://github.com/open-mmlab/mmdetection/blob/master/co
 
 ### HRNet
 Please refer to [HRNet](https://github.com/open-mmlab/mmdetection/blob/master/configs/hrnet) for details.
+
+### Res2Net
+Please refer to [Res2Net]() for details.
 
 ### Mask Scoring R-CNN
 
