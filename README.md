@@ -48,29 +48,29 @@ Please refer to [CHANGELOG.md](docs/CHANGELOG.md) for details and release histor
 Supported methods and backbones are shown in the below table.
 Results and models are available in the [Model zoo](docs/MODEL_ZOO.md).
 
-|                    | ResNet   | ResNeXt  | SENet    | VGG      | HRNet |
-|--------------------|:--------:|:--------:|:--------:|:--------:|:-----:|
-| RPN                | ✓        | ✓        | ☐        | ✗        | ✓     |
-| Fast R-CNN         | ✓        | ✓        | ☐        | ✗        | ✓     |
-| Faster R-CNN       | ✓        | ✓        | ☐        | ✗        | ✓     |
-| Mask R-CNN         | ✓        | ✓        | ☐        | ✗        | ✓     |
-| Cascade R-CNN      | ✓        | ✓        | ☐        | ✗        | ✓     |
-| Cascade Mask R-CNN | ✓        | ✓        | ☐        | ✗        | ✓     |
-| SSD                | ✗        | ✗        | ✗        | ✓        | ✗     |
-| RetinaNet          | ✓        | ✓        | ☐        | ✗        | ✓     |
-| GHM                | ✓        | ✓        | ☐        | ✗        | ✓     |
-| Mask Scoring R-CNN | ✓        | ✓        | ☐        | ✗        | ✓     |
-| Double-Head R-CNN  | ✓        | ✓        | ☐        | ✗        | ✓     |
-| Grid R-CNN (Plus)  | ✓        | ✓        | ☐        | ✗        | ✓     |
-| Hybrid Task Cascade| ✓        | ✓        | ☐        | ✗        | ✓     |
-| Libra R-CNN        | ✓        | ✓        | ☐        | ✗        | ✓     |
-| Guided Anchoring   | ✓        | ✓        | ☐        | ✗        | ✓     |
-| FCOS               | ✓        | ✓        | ☐        | ✗        | ✓     |
-| RepPoints          | ✓        | ✓        | ☐        | ✗        | ✓     |
-| Foveabox           | ✓        | ✓        | ☐        | ✗        | ✓     |
-| FreeAnchor         | ✓        | ✓        | ☐        | ✗        | ✓     |
-| NAS-FPN            | ✓        | ✓        | ☐        | ✗        | ✓     |
-| ATSS               | ✓        | ✓        | ☐        | ✗        | ✓     |
+|                    | ResNet   | ResNeXt  | SENet    | VGG      | HRNet | Res2Net |
+|--------------------|:--------:|:--------:|:--------:|:--------:|:-----:|:-------:|
+| RPN                | ✓        | ✓        | ☐        | ✗        | ✓     | ✓     |
+| Fast R-CNN         | ✓        | ✓        | ☐        | ✗        | ✓     | ✓     |
+| Faster R-CNN       | ✓        | ✓        | ☐        | ✗        | ✓     | ✓     |
+| Mask R-CNN         | ✓        | ✓        | ☐        | ✗        | ✓     | ✓     |
+| Cascade R-CNN      | ✓        | ✓        | ☐        | ✗        | ✓     | ✓     |
+| Cascade Mask R-CNN | ✓        | ✓        | ☐        | ✗        | ✓     | ✓     |
+| SSD                | ✗        | ✗        | ✗        | ✓        | ✗     | ✗     |
+| RetinaNet          | ✓        | ✓        | ☐        | ✗        | ✓     | ✓     |
+| GHM                | ✓        | ✓        | ☐        | ✗        | ✓     | ✓     |
+| Mask Scoring R-CNN | ✓        | ✓        | ☐        | ✗        | ✓     | ✓     |
+| Double-Head R-CNN  | ✓        | ✓        | ☐        | ✗        | ✓     | ✓     |
+| Grid R-CNN (Plus)  | ✓        | ✓        | ☐        | ✗        | ✓     | ✓     |
+| Hybrid Task Cascade| ✓        | ✓        | ☐        | ✗        | ✓     | ✓     |
+| Libra R-CNN        | ✓        | ✓        | ☐        | ✗        | ✓     | ✓     |
+| Guided Anchoring   | ✓        | ✓        | ☐        | ✗        | ✓     | ✓     |
+| FCOS               | ✓        | ✓        | ☐        | ✗        | ✓     | ✓     |
+| RepPoints          | ✓        | ✓        | ☐        | ✗        | ✓     | ✓     |
+| Foveabox           | ✓        | ✓        | ☐        | ✗        | ✓     | ✓     |
+| FreeAnchor         | ✓        | ✓        | ☐        | ✗        | ✓     | ✓     |
+| NAS-FPN            | ✓        | ✓        | ☐        | ✗        | ✓     | ✓     |
+| ATSS               | ✓        | ✓        | ☐        | ✗        | ✓     | ✓     |
 
 Other features
 - [x] DCNv2

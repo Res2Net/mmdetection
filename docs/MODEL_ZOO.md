@@ -203,6 +203,7 @@ More models with different backbones will be added to the model zoo.
 |   HRNetV2p-W48   | pytorch |   20e   |    -     |          -          |       -        |  46.8  | 40.7    | [model](https://open-mmlab.s3.ap-northeast-2.amazonaws.com/mmdetection/models/hrnet/htc_hrnetv2p_w48_20e_20190810-f6d2c3fd.pth) |
 |   HRNetV2p-W48   | pytorch |   28e   |    -     |          -          |       -        |  47.0  |  41.0   | [model](https://open-mmlab.s3.ap-northeast-2.amazonaws.com/mmdetection/models/hrnet/htc_hrnetv2p_w48_28e_20190810-a4274b38.pth) |
 |   Res2Net-101   | pytorch |   20e   |    -     |          -          |       -        |  47.5  |  41.3   | [model]() |
+
 **Notes:**
 
 - Please refer to [Hybrid Task Cascade](https://github.com/open-mmlab/mmdetection/blob/master/configs/htc) for details and more a powerful model (50.7/43.9).
@@ -276,7 +277,7 @@ Please refer to [GCNet](https://github.com/open-mmlab/mmdetection/blob/master/co
 Please refer to [HRNet](https://github.com/open-mmlab/mmdetection/blob/master/configs/hrnet) for details.
 
 ### Res2Net
-Please refer to [Res2Net]() for details.
+Please refer to [Res2Net](https://github.com/Res2Net/mmdetection/blob/master/configs/res2net) for details.
 
 ### Mask Scoring R-CNN
 
