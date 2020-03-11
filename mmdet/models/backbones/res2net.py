@@ -1,16 +1,17 @@
+import math
+
+import torch
 import torch.nn as nn
 import torch.utils.checkpoint as cp
+import torch.utils.model_zoo as model_zoo
 from mmcv.cnn import constant_init, kaiming_init
-from mmcv.runner import load_checkpoint
 from torch.nn.modules.batchnorm import _BatchNorm
 
 from mmdet.models.plugins import GeneralizedAttention
 from mmdet.ops import ContextBlock
-from mmdet.utils import get_root_logger
 from ..registry import BACKBONES
 from ..utils import build_conv_layer, build_norm_layer
-import math
-import torch
+
 
 class Bottle2neck(nn.Module):
     expansion = 4
@@ -28,8 +29,8 @@ class Bottle2neck(nn.Module):
                  dcn=None,
                  gcb=None,
                  gen_attention=None,
-                 scale = 4,
-                 baseWidth = 26,
+                 scale=4,
+                 baseWidth=26,
                  stype='normal'):
         """Bottle2neck block for Res2Net.
         If style is "pytorch", the stride-two layer is the 3x3 conv layer,
@@ -40,8 +41,8 @@ class Bottle2neck(nn.Module):
         assert dcn is None or isinstance(dcn, dict)
         assert gcb is None or isinstance(gcb, dict)
         assert gen_attention is None or isinstance(gen_attention, dict)
-        
-        width = int(math.floor(planes * (baseWidth/64.0)))
+
+        width = int(math.floor(planes * (baseWidth / 64.0)))
         self.inplanes = inplanes
         self.planes = planes
         self.stride = stride
@@ -64,26 +65,26 @@ class Bottle2neck(nn.Module):
             self.conv1_stride = stride
             self.conv2_stride = 1
 
-        self.norm1_name, norm1 = build_norm_layer(norm_cfg, width*scale, postfix=1)
-        # self.norm2_name, norm2 = build_norm_layer(norm_cfg, planes, postfix=2)
+        self.norm1_name, norm1 = build_norm_layer(
+            norm_cfg, width * scale, postfix=1)
         self.norm3_name, norm3 = build_norm_layer(
             norm_cfg, planes * self.expansion, postfix=3)
 
         self.conv1 = build_conv_layer(
             conv_cfg,
             inplanes,
-            width*scale,
+            width * scale,
             kernel_size=1,
             stride=self.conv1_stride,
             bias=False)
         self.add_module(self.norm1_name, norm1)
 
         if scale == 1:
-          self.nums = 1
+            self.nums = 1
         else:
-          self.nums = scale -1
+            self.nums = scale - 1
         if stype == 'stage':
-            self.pool = nn.AvgPool2d(kernel_size=3, stride = stride, padding=1)
+            self.pool = nn.AvgPool2d(kernel_size=3, stride=stride, padding=1)
         convs = []
         bns = []
 
@@ -91,61 +92,40 @@ class Bottle2neck(nn.Module):
         if self.with_dcn:
             fallback_on_stride = dcn.pop('fallback_on_stride', False)
         if not self.with_dcn or fallback_on_stride:
-            # self.conv2 = build_conv_layer(
-            #     conv_cfg,
-            #     planes,
-            #     planes,
-            #     kernel_size=3,
-            #     stride=self.conv2_stride,
-            #     padding=dilation,
-            #     dilation=dilation,
-            #     bias=False)
             for i in range(self.nums):
-                convs.append(build_conv_layer(
-                    conv_cfg,
-                    width,
-                    width,
-                    kernel_size=3,
-                    stride=self.conv2_stride,
-                    padding=dilation,
-                    dilation=dilation,
-                    bias=False))
-                    # nn.Conv2d(width, width, kernel_size=3, stride = stride, padding=1, bias=False))
-                bns.append(build_norm_layer(norm_cfg, width, postfix=i+1)[1])
-                    # nn.BatchNorm2d(width))
+                convs.append(
+                    build_conv_layer(
+                        conv_cfg,
+                        width,
+                        width,
+                        kernel_size=3,
+                        stride=self.conv2_stride,
+                        padding=dilation,
+                        dilation=dilation,
+                        bias=False))
+                bns.append(build_norm_layer(norm_cfg, width, postfix=i + 1)[1])
             self.convs = nn.ModuleList(convs)
             self.bns = nn.ModuleList(bns)
         else:
             assert self.conv_cfg is None, 'conv_cfg cannot be None for DCN'
-            # self.conv2 = build_conv_layer(
-            #     dcn,
-            #     planes,
-            #     planes,
-            #     kernel_size=3,
-            #     stride=self.conv2_stride,
-            #     padding=dilation,
-            #     dilation=dilation,
-            #     bias=False)
             for i in range(self.nums):
-                convs.append(build_conv_layer(
-                    dcn,
-                    width,
-                    width,
-                    kernel_size=3,
-                    stride=self.conv2_stride,
-                    padding=dilation,
-                    dilation=dilation,
-                    bias=False))
-                    # nn.Conv2d(width, width, kernel_size=3, stride = stride, padding=1, bias=False))
-                bns.append(build_norm_layer(norm_cfg, width, postfix=i+1)[1])
-                    # nn.BatchNorm2d(width))
+                convs.append(
+                    build_conv_layer(
+                        dcn,
+                        width,
+                        width,
+                        kernel_size=3,
+                        stride=self.conv2_stride,
+                        padding=dilation,
+                        dilation=dilation,
+                        bias=False))
+                bns.append(build_norm_layer(norm_cfg, width, postfix=i + 1)[1])
             self.convs = nn.ModuleList(convs)
             self.bns = nn.ModuleList(bns)
 
-        # self.add_module(self.norm2_name, norm2)
         self.conv3 = build_conv_layer(
             conv_cfg,
-            width*scale,
+            width * scale,
             planes * self.expansion,
             kernel_size=1,
             bias=False)
@@ -155,7 +135,7 @@ class Bottle2neck(nn.Module):
         self.downsample = downsample
         self.stype = stype
         self.scale = scale
-        self.width  = width
+        self.width = width
 
         if self.with_gcb:
             gcb_inplanes = planes * self.expansion
@@ -193,20 +173,20 @@ class Bottle2neck(nn.Module):
 
             spx = torch.split(out, self.width, 1)
             for i in range(self.nums):
-                if i==0 or self.stype=='stage':
+                if i == 0 or self.stype == 'stage':
                     sp = spx[i]
                 else:
                     sp = sp + spx[i]
                 sp = self.convs[i](sp)
                 sp = self.relu(self.bns[i](sp))
-                if i==0:
+                if i == 0:
                     out = sp
                 else:
                     out = torch.cat((out, sp), 1)
-            if self.scale != 1 and self.stype=='normal':
-                out = torch.cat((out, spx[self.nums]),1)
-            elif self.scale != 1 and self.stype=='stage':
-                out = torch.cat((out, self.pool(spx[self.nums])),1)
+            if self.scale != 1 and self.stype == 'normal':
+                out = torch.cat((out, spx[self.nums]), 1)
+            elif self.scale != 1 and self.stype == 'stage':
+                out = torch.cat((out, self.pool(spx[self.nums])), 1)
 
             if self.with_gen_attention:
                 out = self.gen_attention_block(out)
@@ -248,13 +228,16 @@ def make_res_layer(block,
                    gcb=None,
                    gen_attention=None,
                    gen_attention_blocks=[],
-                   scale = 4,
-                   baseWidth = 26):
+                   scale=4,
+                   baseWidth=26):
     downsample = None
     if stride != 1 or inplanes != planes * block.expansion:
         downsample = nn.Sequential(
-            nn.AvgPool2d(kernel_size=stride, stride=stride, 
-                    ceil_mode=True, count_include_pad=False),
+            nn.AvgPool2d(
+                kernel_size=stride,
+                stride=stride,
+                ceil_mode=True,
+                count_include_pad=False),
             build_conv_layer(
                 conv_cfg,
                 inplanes,
@@ -283,7 +266,7 @@ def make_res_layer(block,
             (0 in gen_attention_blocks) else None,
             scale=scale,
             baseWidth=baseWidth,
-            stype="stage"))
+            stype='stage'))
     inplanes = planes * block.expansion
     for i in range(1, blocks):
         layers.append(
@@ -311,9 +294,11 @@ class Res2Net(nn.Module):
     """Res2Net backbone.
 
     Args:
-        depth (int): Depth of res2net, from {18, 34, 50, 101, 152}.
+        depth (int): Depth of Res2Net, from {18, 34, 50, 101, 152}.
+        scale (int): Scales used in Res2Net, normally 4.
+        baseWidth (int): basic width of each scale, normally 26.
         in_channels (int): Number of input image channels. Normally 3.
-        num_stages (int): Res2net stages, normally 4.
+        num_stages (int): Res2Net stages, normally 4.
         strides (Sequence[int]): Strides of the first block of each stage.
         dilations (Sequence[int]): Dilation of each stage.
         out_indices (Sequence[int]): Output from which stages.
@@ -431,8 +416,8 @@ class Res2Net(nn.Module):
                 gcb=gcb,
                 gen_attention=gen_attention,
                 gen_attention_blocks=stage_with_gen_attention[i],
-                scale = scale,
-                baseWidth = baseWidth)
+                scale=scale,
+                baseWidth=baseWidth)
             self.inplanes = planes * self.block.expansion
             layer_name = 'layer{}'.format(i + 1)
             self.add_module(layer_name, res_layer)
@@ -448,30 +433,35 @@ class Res2Net(nn.Module):
         return getattr(self, self.norm1_name)
 
     def _make_stem_layer(self, in_channels):
-        # self.conv1 = build_conv_layer(
-        #     self.conv_cfg,
-        #     in_channels,
-        #     64,
-        #     kernel_size=7,
-        #     stride=2,
-        #     padding=3,
-        #     bias=False)
         self.conv1 = nn.Sequential(
-            build_conv_layer(self.conv_cfg, in_channels, 32,
-                        kernel_size=3, stride=2, padding=1, bias=False),
-            # nn.Conv2d(3, 32, 3, 2, 1, bias=False),
-            build_norm_layer(self.norm_cfg, 32)[1],
-            # nn.BatchNorm2d(32),
-            nn.ReLU(inplace=True),
-            build_conv_layer(self.conv_cfg, 32, 32,
-                        kernel_size=3, stride=1, padding=1, bias=False),
-            # nn.Conv2d(32, 32, 3, 1, 1, bias=False),
-            # nn.BatchNorm2d(32),
+            build_conv_layer(
+                self.conv_cfg,
+                in_channels,
+                32,
+                kernel_size=3,
+                stride=2,
+                padding=1,
+                bias=False),
             build_norm_layer(self.norm_cfg, 32)[1],
             nn.ReLU(inplace=True),
-            # nn.Conv2d(32, 64, 3, 1, 1, bias=False)
-            build_conv_layer(self.conv_cfg, 32, 64,
-                        kernel_size=3, stride=1, padding=1, bias=False),
+            build_conv_layer(
+                self.conv_cfg,
+                32,
+                32,
+                kernel_size=3,
+                stride=1,
+                padding=1,
+                bias=False),
+            build_norm_layer(self.norm_cfg, 32)[1],
+            nn.ReLU(inplace=True),
+            build_conv_layer(
+                self.conv_cfg,
+                32,
+                64,
+                kernel_size=3,
+                stride=1,
+                padding=1,
+                bias=False),
         )
         self.norm1_name, norm1 = build_norm_layer(self.norm_cfg, 64, postfix=1)
         self.add_module(self.norm1_name, norm1)
@@ -481,9 +471,6 @@ class Res2Net(nn.Module):
     def _freeze_stages(self):
         if self.frozen_stages >= 0:
             self.norm1.eval()
-            # for m in [self.conv1, self.norm1]:
-            #     for param in m.parameters():
-            #         param.requires_grad = False
             for m in self.conv1:
                 for param in m.parameters():
                     param.requires_grad = False
@@ -498,11 +485,8 @@ class Res2Net(nn.Module):
 
     def init_weights(self, pretrained=None):
         if isinstance(pretrained, str):
-            logger = get_root_logger()
-            #load_checkpoint(self, pretrained, strict=False, logger=logger)
-            # load_checkpoint(self, pretrained, strict=False, logger=None)
-            checkpoint = torch.load("/home/shgao/.cache/torch/checkpoints/res2net101_v1b_26w_4s-0812c246.pth", map_location=lambda storage, loc: storage)
-            checkpoint = weights_to_cpu(checkpoint)
+            checkpoint = model_zoo.load_url(
+                pretrained, map_location=lambda storage, loc: storage)
             self.load_state_dict(checkpoint, strict=False)
         elif pretrained is None:
             for m in self.modules():
@@ -513,7 +497,7 @@ class Res2Net(nn.Module):
 
             if self.dcn is not None:
                 for m in self.modules():
-                    if isinstance(m, Bottleneck) and hasattr(
+                    if isinstance(m, Bottle2neck) and hasattr(
                             m, 'conv2_offset'):
                         constant_init(m.conv2_offset, 0)
 
@@ -545,15 +529,3 @@ class Res2Net(nn.Module):
                 # trick: eval have effect on BatchNorm only
                 if isinstance(m, _BatchNorm):
                     m.eval()
-from collections import OrderedDict
-def weights_to_cpu(state_dict):
-    """Copy a model state_dict to cpu.
-    Args:
-        state_dict (OrderedDict): Model weights on GPU.
-    Returns:
-        OrderedDict: Model weights on GPU.
-    """
-    state_dict_cpu = OrderedDict()
-    for key, val in state_dict.items():
-        state_dict_cpu[key] = val.cpu()
-    return state_dict_cpu
