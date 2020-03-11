@@ -526,7 +526,8 @@ class PhotoMetricDistortion(object):
         repr_str = self.__class__.__name__
         repr_str += ('(brightness_delta={}, contrast_range={}, '
                      'saturation_range={}, hue_delta={})').format(
-                         self.brightness_delta, self.contrast_range,
+                         self.brightness_delta,
+                         (self.contrast_lower, self.contrast_upper),
                          self.saturation_range, self.hue_delta)
         return repr_str
 
@@ -779,10 +780,10 @@ class Albu(object):
         Returns:
             obj: The constructed object.
         """
-        assert isinstance(cfg, dict) and "type" in cfg
+        assert isinstance(cfg, dict) and 'type' in cfg
         args = cfg.copy()
 
-        obj_type = args.pop("type")
+        obj_type = args.pop('type')
         if mmcv.is_str(obj_type):
             if albumentations is None:
                 raise RuntimeError('albumentations is not installed')
@@ -872,5 +873,5 @@ class Albu(object):
 
     def __repr__(self):
         repr_str = self.__class__.__name__
-        repr_str += '(transformations={})'.format(self.transformations)
+        repr_str += '(transforms={})'.format(self.transforms)
         return repr_str
