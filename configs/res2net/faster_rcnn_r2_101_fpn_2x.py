@@ -1,7 +1,8 @@
 # model settings
 model = dict(
     type='FasterRCNN',
-    pretrained='https://shanghuagao.oss-cn-beijing.aliyuncs.com/res2net/res2net101_v1b_26w_4s-0812c246.pth', #noqa
+    pretrained=  # NOQA
+    'https://shanghuagao.oss-cn-beijing.aliyuncs.com/res2net/res2net101_v1b_26w_4s-0812c246.pth',  # NOQA
     backbone=dict(
         type='Res2Net',
         depth=101,

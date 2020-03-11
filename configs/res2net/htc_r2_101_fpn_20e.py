@@ -2,7 +2,8 @@
 model = dict(
     type='HybridTaskCascade',
     num_stages=3,
-    pretrained='https://shanghuagao.oss-cn-beijing.aliyuncs.com/res2net/res2net101_v1b_26w_4s-0812c246.pth', #noqa
+    pretrained=  # NOQA
+    'https://shanghuagao.oss-cn-beijing.aliyuncs.com/res2net/res2net101_v1b_26w_4s-0812c246.pth',  # NOQA
     interleaved=True,
     mask_info_flow=True,
     backbone=dict(
