@@ -4,14 +4,14 @@
 
 We propose a novel building block for CNNs, namely Res2Net, by constructing hierarchical residual-like connections within one single residual block. The Res2Net represents multi-scale features at a granular level and increases the range of receptive fields for each network layer.
 
-|    Backbone     |Params. | GFLOPs (224x224) | top-1 error | top-5 error |
-| :-------------: |:----:  | :--------------: | :---------: | :---------: |
-| ResNet-101      |44.6 M  | 7.8              |  22.63      |  6.44       |
-| ResNeXt-101-64x4d |83.5M  | 15.5           |  20.40      |  -          |
-| HRNetV2p-W48    | 77.5M  | 16.1             |  20.70      |  5.50       |
-| Res2Net-101     | 45.2M  | 8.3              |  18.77      |  4.64       |
+|    Backbone     |Params. | GFLOPs  | top-1 err. | top-5 err. |
+| :-------------: |:----:  | :-----: | :--------: | :--------: |
+| ResNet-101      |44.6 M  | 7.8     |  22.63     |  6.44      |
+| ResNeXt-101-64x4d |83.5M | 15.5    |  20.40     |  -         |
+| HRNetV2p-W48    | 77.5M  | 16.1    |  20.70     |  5.50      |
+| Res2Net-101     | 45.2M  | 8.3     |  18.77     |  4.64      |
 
-Compared with other backbone networks, Res2Net requires fewer parameters and FLOPs.
+Compared with other backbone networks, Res2Net requires fewer parameters and FLOPs (numbers are tested with image size 224x224).
 ```
 @article{gao2019res2net,
   title={Res2Net: A New Multi-scale Backbone Architecture},
