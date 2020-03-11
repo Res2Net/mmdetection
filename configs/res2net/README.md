@@ -11,7 +11,11 @@ We propose a novel building block for CNNs, namely Res2Net, by constructing hier
 | HRNetV2p-W48    | 77.5M  | 16.1    |  20.70     |  5.50      |
 | Res2Net-101     | 45.2M  | 8.3     |  18.77     |  4.64      |
 
-Compared with other backbone networks, Res2Net requires fewer parameters and FLOPs (numbers are tested with image size 224x224).
+Compared with other backbone networks, Res2Net requires fewer parameters and FLOPs.
+
+**Note:**
+- GFLOPs for classification are calculated with image size (224x224).
+
 ```
 @article{gao2019res2net,
   title={Res2Net: A New Multi-scale Backbone Architecture},
@@ -22,7 +26,7 @@ Compared with other backbone networks, Res2Net requires fewer parameters and FLO
 }
 ```
 
-## Results
+## Detection Results
 
 
 ### Faster R-CNN
@@ -64,15 +68,16 @@ Compared with other backbone networks, Res2Net requires fewer parameters and FLO
 
 ### Hybrid Task Cascade (HTC)
 
-|    Backbone     |  Style  | Lr schd | Params.  | GFLOPs | box AP | mask AP |       Download      |
-| :-------------: | :-----: | :-----: | :----:   | :----: | :----: | :----:  | :-----------------: |
-| R-101-FPN       | pytorch |   20e   | 99.03M   | 563.76 |  44.9  |  39.4   |  [model](-)         |
-| X-101-64x4d-FPN | pytorch |   20e   | 137.75M  | 720.98 |  46.9  |  40.8   |  [model](-)         |
-| HRNetV2p-W48    | pytorch |   20e   | 121.87M  | 740.28 |  47.0  |  41.0   |  [model](-)         |
-| Res2Net-101     | pytorch |   20e   |  99.69M  | 574.30 |  47.5  |  41.3   |  [model](-)         |
+|    Backbone     | Params.  | GFLOPs | box AP | mask AP |    Download  |
+| :-------------: | :-----:  | :----: | :----: | :----:  | :----------: |
+| R-101-FPN       | 99.03M   | 563.76 |  44.9  |  39.4   |  [model](-)  |
+| X-101-64x4d-FPN | 137.75M  | 720.98 |  46.9  |  40.8   |  [model](-)  |
+| HRNetV2p-W48    | 121.87M  | 740.28 |  47.0  |  41.0   |  [model](-)  |
+| Res2Net-101     | 99.69M   | 574.30 |  47.5  |  41.3   |  [model](-)  |
 
 **Note:**
 
 - GFLOPs are calculated with image size (1280, 800).
+- All detection methods in this page use pytorch. Lr schd is 2x for Faster R-CNN and Mask R-CNN, and 20e for others. 
 - Res2Net ImageNet pretrained models are in [Res2Net-PretrainedModels](https://github.com/Res2Net/Res2Net-PretrainedModels).
 - More applications of Res2Net are in [Res2Net-Github](https://github.com/Res2Net/).
