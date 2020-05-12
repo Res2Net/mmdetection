@@ -1,5 +1,7 @@
 # Res2Net for object detection and instance segmentation based on mmdetection.
 
+## News
+- Res2Net with mmdetection v2 is now available in https://github.com/Res2Net/mmdetection/tree/mmdet_res2net.
 ## Introduction
 
 We propose a novel building block for CNNs, namely Res2Net, by constructing hierarchical residual-like connections within one single residual block. The Res2Net represents multi-scale features at a granular level and increases the range of receptive fields for each network layer.
