@@ -1,6 +1,8 @@
 # Res2Net for object detection and instance segmentation based on mmdetection.
 
 ## News
+- Res2Net is now one of the basic bonebones in MMDetection v2 framework https://github.com/open-mmlab/mmdetection.
+Using MMDetection v2 with Res2Net achieves better performance with less computational cost.
 - Res2Net with mmdetection v2 is now available in https://github.com/Res2Net/mmdetection/tree/mmdet_res2net.
 ## Introduction
 
